@@ -1,11 +1,24 @@
-version: "3.9"
+version: '3.9'
 
+# Services
 services:
-  frontend:
-    build: ./frontend
+  # Server service
+  server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
     ports:
-      - "8080:8080"
-  backend:
-    build: ./backend
+      - "5000:5000"
+
+  # Client service
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: frontend
     ports:
-      - "9002:9002"
+      - "80:80"
+    depends_on:
+      - server
